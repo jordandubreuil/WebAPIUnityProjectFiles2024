@@ -16,13 +16,13 @@ public class JsonSerializer : MonoBehaviour
     void Start()
     {
         filePath = Path.Combine(Application.dataPath, "saveData.txt");
-        dataObj = new DataClass();
-        dataObj.level = 1;
-        dataObj.timeElapsed = 44443.232323f;
-        dataObj.name = "Jordan";
+        //dataObj = new DataClass();
+        //dataObj.level = 1;
+        //dataObj.timeElapsed = 44443.232323f;
+        //dataObj.name = "Jordan";
         string json = JsonUtility.ToJson(dataObj);
         Debug.Log(json);
-        StartCoroutine(SendWebData(json));
+        //StartCoroutine(SendWebData(json));
         File.WriteAllText(filePath, json);
     }
 
@@ -83,10 +83,24 @@ public class JsonSerializer : MonoBehaviour
             var newData = System.Text.Encoding.UTF8.GetString(getRequest.downloadHandler.data);
             Debug.Log(newData);
             var newGetRequestData = JsonUtility.FromJson<DataClass>(newData);
+            Debug.Log(newGetRequestData);
+            Debug.Log(newGetRequestData);
 
-            Debug.Log(newGetRequestData.name);
-            Debug.Log(newGetRequestData.level);
-            Debug.Log(newGetRequestData.timeElapsed);
+            var newGetRoot = JsonUtility.FromJson<Root>(newData);
+            Debug.Log(newGetRoot.playerdata[0].level);
+
+            for (int i = 0; i<newGetRoot.playerdata.Length; i++ )
+            {
+                Debug.Log(newGetRoot.playerdata[i].name);
+                Debug.Log(newGetRoot.playerdata[i].level);
+                Debug.Log(newGetRoot.playerdata[i].timeElapsed);
+                
+            }
+           
+
+            //Debug.Log(newGetRequestData.name);
+            //Debug.Log(newGetRequestData.level);
+            //Debug.Log(newGetRequestData.timeElapsed);
         }
     }
 }
